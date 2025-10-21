@@ -1,0 +1,67 @@
+{
+  "name": "bang-log",
+  "displayName": "Bang Log",
+  "description": "simple console log by bang",
+  "version": "0.0.1",
+  "publisher": "bang",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "bang-log.clog",
+        "title": "Bang Log: Insert console.log"
+      },
+      {
+        "command": "bang-log.clogBefore",
+        "title": "Bang Log: Insert console.log Before"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "bang-log.clog",
+        "key": "alt+/",
+        "mac": "alt+/",
+        "win": "alt+/",
+        "linux": "alt+/",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "bang-log.clogBefore",
+        "key": "alt+shift+/",
+        "mac": "alt+shift+/",
+        "win": "alt+shift+/",
+        "linux": "alt+shift+/",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "package": "pnpm run compile && vsce package"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.2",
+    "eslint": "^9.36.0",
+    "typescript": "^5.9.3"
+  }
+}
