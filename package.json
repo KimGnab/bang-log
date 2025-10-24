@@ -2,7 +2,7 @@
   "name": "bang-log",
   "displayName": "Bang Log",
   "description": "simple console log by bang",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "bang",
   "engines": {
     "vscode": "^1.95.0"

@@ -179,14 +179,32 @@ function doLog(before: boolean): void {
 		if (statementEnd) {
 			// 블럭 내부에 있으면 statement 끝 다음 줄에 삽입
 			const statementLine = editor.document.lineAt(statementEnd.line);
-			dest = new vscode.Position(statementEnd.line, statementLine.text.length);
-			startSpace = ' '.repeat(statementLine.firstNonWhitespaceCharacterIndex);
-			log = `\n${startSpace}console.log(${logMessage}, ${text});`;
+			
+			// statement 끝나는 줄이 문서의 마지막 줄이거나, 다음 줄이 존재하는지 확인
+			if (statementEnd.line + 1 < editor.document.lineCount) {
+				// 다음 줄이 존재하면 그 줄의 시작 위치에 삽입
+				dest = new vscode.Position(statementEnd.line + 1, 0);
+				startSpace = ' '.repeat(statementLine.firstNonWhitespaceCharacterIndex);
+				log = `${startSpace}console.log(${logMessage}, ${text});\n`;
+			} else {
+				// 다음 줄이 없으면 (마지막 줄) 줄 끝에 개행 후 삽입
+				dest = new vscode.Position(statementEnd.line, statementLine.text.length);
+				startSpace = ' '.repeat(statementLine.firstNonWhitespaceCharacterIndex);
+				log = `\n${startSpace}console.log(${logMessage}, ${text});`;
+			}
 		} else {
 			// 블럭 외부에 있으면 현재 줄 다음에 삽입
-			dest = selection.active.translate(0, -selection.active.character).translate(0, line.text.length);
-			startSpace = ' '.repeat(line.firstNonWhitespaceCharacterIndex);
-			log = `\n${startSpace}console.log(${logMessage}, ${text});`;
+			if (line.lineNumber + 1 < editor.document.lineCount) {
+				// 다음 줄이 존재하면 그 줄의 시작 위치에 삽입
+				dest = new vscode.Position(line.lineNumber + 1, 0);
+				startSpace = ' '.repeat(line.firstNonWhitespaceCharacterIndex);
+				log = `${startSpace}console.log(${logMessage}, ${text});\n`;
+			} else {
+				// 다음 줄이 없으면 (마지막 줄) 줄 끝에 개행 후 삽입
+				dest = new vscode.Position(line.lineNumber, line.text.length);
+				startSpace = ' '.repeat(line.firstNonWhitespaceCharacterIndex);
+				log = `\n${startSpace}console.log(${logMessage}, ${text});`;
+			}
 		}
 	}
 

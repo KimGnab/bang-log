@@ -324,4 +324,21 @@ console.log('test.ts > extra:', extra);`;
 
 		await testLogInsertion(input, 2, 2, expected);
 	});
+
+	test('Hook 호출의 객체 인자 내부에서 변수 선택', async () => {
+		const input = `const { productItemList } = useGetProductList({
+  pageType: 'order',
+  orderIdList: orderItemList.map((item) => item.id),
+  typeList,
+});`;
+
+		const expected = `const { productItemList } = useGetProductList({
+  pageType: 'order',
+  orderIdList: orderItemList.map((item) => item.id),
+  typeList,
+});
+console.log('test.ts > productItemList:', productItemList);`;
+
+		await testLogInsertion(input, 0, 9, expected);
+	});
 });
